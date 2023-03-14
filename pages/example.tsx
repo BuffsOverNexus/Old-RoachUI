@@ -1,7 +1,7 @@
 
 import { useSession } from "next-auth/react";
 
-const ExamplePage = ({guilds}: {guilds: GuildResponse[]}) => {
+const ExamplePage = ({guilds}: {guilds: DiscordGuild[]}) => {
     return (
         <>
         

@@ -1,6 +1,8 @@
 import { getServerSession } from "next-auth/next"
 import  authOptions from "./auth/[...nextauth]"
-export default async (req, res) => {
+import { IncomingMessage, ServerResponse } from "http"
+import { NextApiRequest, NextApiResponse } from "next"
+export default async (req: any | NextApiRequest | (IncomingMessage & { cookies: Partial<{ [key: string]: string }> }), res: any | ServerResponse<IncomingMessage> | NextApiResponse) => {
   const session = await getServerSession(req, res, authOptions)
   if (session) {
     res.send({
