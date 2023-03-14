@@ -18,7 +18,7 @@ const Navigation = () => {
                     </div>
                     <div className="grow flex gap-3 justify-center">
                         {menuItems.map((menuItem) => (
-                            <Link className="flex-none p-2 font-semibold rounded-xl text-black hover:bg-orange-500 hover:white" 
+                            <Link key={menuItem.label} className="flex-none p-2 font-semibold rounded-xl text-black hover:bg-orange-500 hover:white" 
                                 href={menuItem.href}>
                                 {menuItem.label}
                             </Link>

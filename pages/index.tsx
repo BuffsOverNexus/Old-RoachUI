@@ -1,32 +1,33 @@
-import type { NextPage } from "next";
-import Link from "next/link";
-import { signIn, signOut, useSession } from "next-auth/react";
+import type { GetServerSidePropsContext, NextPage } from "next";
 import Navigation from "../components/navigation";
-import useSWR, { Fetcher } from "swr";
 import { DiscordGuild } from "../responses/discord-guild";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "./api/auth/[...nextauth]";
+import { http } from "../responses/http";
+import { Session } from "next-auth";
 
-const Home: NextPage = () => {
-  const { data } = useSession();
-  // @ts-ignore
-  const url = `https://bot-dev.roach.buffsovernexus.com/discord/guilds?userId=${data?.token.sub}`;
-  const fetcher = (url: RequestInfo | URL) => fetch(url).then((r) => r.json());
-  const guilds = useSWR<DiscordGuild[]>(url, fetcher).data;
+function Home({guilds}: {guilds: DiscordGuild[]}) {
   console.log(guilds);
-
-  console.log(data);
-
   return (
     <>
-      <Navigation></Navigation>
       <div className="h-full">
-        <ul>
-          {guilds?.map((guild) => (
-            <li key={guild.id}>{guild.name}</li>
-          ))}
-        </ul>
+      {guilds.map(guild => <div key={guild.id}>{guild.name}</div>)}
       </div>
     </>
   );
-};
+}
+
+// Export the `session` prop to use sessions with Server Side Rendering
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const session = await getServerSession(context.req, context.res, authOptions);
+  const url = `https://bot-dev.roach.buffsovernexus.com/discord/guilds?userId=${session?.token.sub}`;
+  const guilds = await http<DiscordGuild[]>(url);
+  
+  return {
+    props: {
+      guilds: guilds
+    },
+  }
+}
 
 export default Home;
