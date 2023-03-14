@@ -1,5 +1,6 @@
 
 import { useSession } from "next-auth/react";
+import { DiscordGuild } from "../responses/discord-guild";
 
 const ExamplePage = ({guilds}: {guilds: DiscordGuild[]}) => {
     return (
