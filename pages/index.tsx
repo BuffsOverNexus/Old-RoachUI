@@ -5,9 +5,9 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "./api/auth/[...nextauth]";
 import { http } from "../responses/http";
 import { Session } from "next-auth";
+import getBotUrl, { BotUrls } from "../utils/url";
 
 function Home({guilds}: {guilds: DiscordGuild[]}) {
-  console.log(guilds);
   return (
     <>
       <div className="h-full">
@@ -20,9 +20,9 @@ function Home({guilds}: {guilds: DiscordGuild[]}) {
 // Export the `session` prop to use sessions with Server Side Rendering
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await getServerSession(context.req, context.res, authOptions);
-  const url = `https://bot-dev.roach.buffsovernexus.com/discord/guilds?userId=${session?.token.sub}`;
-  const guilds = await http<DiscordGuild[]>(url);
-  
+  const userId = session?.token.sub;
+  const guilds = await BotUrls.getGuilds(userId);
+
   return {
     props: {
       guilds: guilds
