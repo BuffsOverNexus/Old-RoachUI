@@ -3,6 +3,7 @@ import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Navigation from "../components/navigation";
 import useSWR, { Fetcher } from "swr";
+import { DiscordGuild } from "../responses/discord-guild";
 
 const Home: NextPage = () => {
   const { data } = useSession();
