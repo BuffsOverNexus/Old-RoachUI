@@ -6,6 +6,7 @@ import useSWR, { Fetcher } from "swr";
 
 const Home: NextPage = () => {
   const { data } = useSession();
+  // @ts-ignore
   const url = `https://bot-dev.roach.buffsovernexus.com/discord/guilds?userId=${data?.token.sub}`;
   const fetcher = (url: RequestInfo | URL) => fetch(url).then((r) => r.json());
   const guilds = useSWR<DiscordGuild[]>(url, fetcher).data;
