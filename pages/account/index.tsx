@@ -8,14 +8,12 @@ const Account = () => {
     if (session) {
         return (
             <>
-                <Navigation></Navigation>
                 <button onClick={() => signOut()}>Sign Out</button>
             </>
         );
     } else {
         return (
             <>
-                <Navigation></Navigation>
                 <div className="flex"> 
                     You have been signed out
                 </div>
